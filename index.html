@@ -644,31 +644,34 @@ const PROVIDERS = {
   }
 };
 const API = {
-  provider: "gemini", key: "", model: "", authMode: "",
+  provider: "gemini", key: "", model: "", authMode: "", models: [],
   load(){
     try {
       API.key = localStorage.getItem(KEY_STORE) || "";
       API.provider = localStorage.getItem(PROV_STORE) || "gemini";
       API.model = localStorage.getItem(MODEL_STORE) || "";
       API.authMode = localStorage.getItem("yiyi-auth") || "";
+      try { API.models = JSON.parse(localStorage.getItem("yiyi-models") || "[]") || []; } catch(e){ API.models = []; }
     } catch(e){}
     if (!PROVIDERS[API.provider]) API.provider = "gemini";
     return API.key;
   },
-  save(provider, key, model){
+  save(provider, key, model, models){
     API.provider = PROVIDERS[provider] ? provider : "gemini";
     API.key = (key||"").trim();
     API.model = model || "";
+    if (Array.isArray(models)) API.models = models;
     try {
       localStorage.setItem(KEY_STORE, API.key);
       localStorage.setItem(PROV_STORE, API.provider);
       localStorage.setItem(MODEL_STORE, API.model);
       localStorage.setItem("yiyi-auth", API.authMode || "");
+      localStorage.setItem("yiyi-models", JSON.stringify(API.models || []));
     } catch(e){}
   },
   clear(){
-    API.key = ""; API.model = ""; API.authMode = "";
-    try { localStorage.removeItem(KEY_STORE); localStorage.removeItem(MODEL_STORE); localStorage.removeItem("yiyi-auth"); } catch(e){}
+    API.key = ""; API.model = ""; API.authMode = ""; API.models = [];
+    try { localStorage.removeItem(KEY_STORE); localStorage.removeItem(MODEL_STORE); localStorage.removeItem("yiyi-auth"); localStorage.removeItem("yiyi-models"); } catch(e){}
   }
 };
 API.load();
@@ -710,8 +713,9 @@ async function geminiModels(key){
     .filter(m => (m.supportedGenerationMethods || []).includes("generateContent"))
     .map(m => m.name.replace(/^models\//, ""))
     .filter(n => !/embedding|aqa|imagen|veo|tts|image|native-audio|live/i.test(n));
-  const score = n => (/flash/i.test(n) ? 0 : /pro/i.test(n) ? 1 : 2)
-    + (/lite/i.test(n) ? 0.5 : 0) + (/preview|exp/i.test(n) ? 0.4 : 0);
+  // Free-tier quotas favour the smaller, settled models; previews and Pro often have none.
+  const score = n => (/flash/i.test(n) ? 0 : /pro/i.test(n) ? 2 : 3)
+    + (/lite/i.test(n) ? -0.5 : 0) + (/preview|exp/i.test(n) ? 1 : 0);
   usable.sort((a,b) => score(a) - score(b) || b.localeCompare(a));
   if (!usable.length) throw apiErr("upstream_error", "No usable model on this key.");
   return usable;
@@ -727,9 +731,8 @@ function splitTurns(input){
   }
   return {system, messages};
 }
-async function askGemini(input, opts){
+async function geminiOnce(model, input, opts){
   const {system, messages} = splitTurns(input);
-  const model = API.model || "gemini-2.5-flash";
   const body = {
     contents: messages.map(m => ({role: m.role === "assistant" ? "model" : "user", parts:[{text:m.content}]})),
     generationConfig: {maxOutputTokens: opts.maxTokens || 700, temperature: 0.8}
@@ -738,14 +741,14 @@ async function askGemini(input, opts){
   const r = await geminiFetch(
     `https://generativelanguage.googleapis.com/v1beta/models/${encodeURIComponent(model)}:generateContent`,
     API.key, {method:"POST", body:JSON.stringify(body), signal:opts.signal});
-  if (!r){ throw apiErr("upstream_error", "No response."); }
+  if (!r) throw apiErr("upstream_error", "No response.");
   if (!r.ok){
     let detail = "";
     try { const j = await r.json(); detail = (j.error && j.error.message) || ""; } catch(e){}
     if (r.status === 400 && /API key/i.test(detail)) throw apiErr("bad_key", detail);
     if (r.status === 403 || r.status === 401) throw apiErr("bad_key", detail || "Key rejected.");
-    if (r.status === 429) throw apiErr("quota", detail || "Free daily limit reached.");
-    if (r.status === 404) throw apiErr("bad_model", detail || "That model isn't available on this key.");
+    if (r.status === 429) throw apiErr("quota", detail || "Quota reached.");
+    if (r.status === 404) throw apiErr("bad_model", detail || "Model unavailable.");
     if (r.status >= 500) throw apiErr("upstream_error", detail || "Gemini is busy.");
     throw apiErr("upstream_error", detail || ("HTTP " + r.status));
   }
@@ -757,6 +760,26 @@ async function askGemini(input, opts){
     throw apiErr("empty_completion", "Empty reply.");
   }
   return text;
+}
+// A model can be listed for a key yet have no free-tier quota, which comes back as 429.
+// Walk the candidates until one answers, then stick with it.
+async function askGemini(input, opts){
+  const tried = [];
+  const queue = [API.model].concat(API.models || []).filter(m => m && !tried.includes(m) && (tried.push(m) || true));
+  if (!queue.length) queue.push("gemini-2.5-flash");
+  let firstErr = null;
+  for (let i = 0; i < queue.length; i++){
+    try {
+      const text = await geminiOnce(queue[i], input, opts);
+      if (API.model !== queue[i]){ API.model = queue[i]; try { localStorage.setItem(MODEL_STORE, API.model); } catch(e){} }
+      return text;
+    } catch(e){
+      if (!firstErr) firstErr = e;
+      const retryable = e && (e.code === "quota" || e.code === "bad_model");
+      if (!retryable || i === queue.length - 1) throw (retryable ? firstErr : e);
+    }
+  }
+  throw firstErr || apiErr("upstream_error", "No model answered.");
 }
 async function askAnthropic(input, opts){
   const {system, messages} = splitTurns(input);
@@ -806,7 +829,7 @@ const ERRCOPY = {
   no_key:"Add a key in the Me tab to talk with her.",
   bad_key:"That key was rejected. Check it in the Me tab.",
   bad_model:"That model isn't available on your key. Save the key again in the Me tab.",
-  quota:"Daily limit reached for now. Try again later, or switch key in the Me tab.",
+  quota:"Your free daily allowance is used up for every model on this key. It resets after midnight Pacific time. Cards, drills and the word list still work.",
   rate_limited:"Too many messages at once. Wait a moment.",
   offline:"No internet connection.",
   refused:"That reply was blocked. Try saying it another way.",
@@ -1532,14 +1555,14 @@ function renderKeyBox(){
     if (!v) return msg("Paste your key first.");
     const b = $("keySave"); b.disabled = true; b.textContent = "Testing…";
     try {
-      let model = "";
+      let model = "", list = [];
       if (keyProv === "gemini"){
         msg("Checking which models your key can use…");
-        const list = await geminiModels(v);
+        list = await geminiModels(v);
         model = list[0];
       }
-      API.save(keyProv, v, model);
-      msg("Saying hello…");
+      API.save(keyProv, v, model, list.slice(0, 8));
+      msg("Finding one with free quota…");
       await askClaude("Reply with exactly: ok", {maxTokens:16});
       renderKeyBox(); renderHome();
       toast("Connected — 依依 is ready");
