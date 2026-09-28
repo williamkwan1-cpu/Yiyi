@@ -266,6 +266,51 @@ body.incall nav.tabs{display:none}
 .keyok .sub{color:var(--jade-ink);opacity:.85;font-size:14px}
 #keyBox code{background:var(--sink);border-radius:5px;padding:1px 5px;font-size:14px}
 #keyBox .btn{margin-top:8px}
+/* tutor */
+.tutorcard{background:var(--card);border:1px solid var(--line);border-radius:var(--r-l);padding:16px 18px;margin:0 0 14px}
+.tutorcard h3{margin:2px 0 6px;font-size:19px;line-height:1.25}
+.tutorcard .btn{margin-top:12px}
+.patline{font-size:15px;margin:4px 0}
+.patline .han{font-family:var(--han);font-size:17px}
+.bridgeline{display:inline-block;background:var(--jade-soft);color:var(--jade-ink);border-radius:10px;padding:5px 10px;font-size:14px;margin-top:6px}
+.plan{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin-top:12px}
+.plan span{background:var(--sink);border-radius:10px;padding:7px 4px;text-align:center;font-size:12px;color:var(--muted);line-height:1.25}
+.plan b{display:block;color:var(--ink);font-size:13px}
+.hw{background:var(--warn-bg);color:var(--warn-ink);border-radius:12px;padding:10px 12px;font-size:15px;margin:12px 0 0}
+.hw b{display:block;font-size:13px;margin-bottom:2px}
+.welcome{background:var(--jade-soft);color:var(--jade-ink);border-radius:12px;padding:10px 12px;font-size:15px;margin:10px 0 0}
+.stagebar{display:flex;gap:4px;justify-content:center;flex-wrap:wrap;padding:0 10px 4px}
+.stg{font-size:11.5px;font-weight:700;border-radius:999px;padding:3px 8px;color:var(--callmute);border:1px solid rgba(255,255,255,.18);background:none}
+.stg.done{color:var(--callink)}
+.stg.on{background:var(--jade);border-color:var(--jade);color:#fff}
+.stg.wrapbtn{border-style:dashed;color:var(--callink)}
+.helpchip{border:0;background:rgba(255,255,255,.12);color:var(--callink);border-radius:999px;padding:7px 14px;font-size:14px;font-weight:600}
+.helpchip:disabled{opacity:.5}
+body.tutoring .orb{width:68px;height:68px}
+body.tutoring .orbface{font-size:28px}
+body.tutoring .stage{gap:6px;padding-top:4px}
+.transcript .hint{margin-top:9px;background:rgba(239,162,60,.2);border-radius:10px;padding:8px 10px;font-size:14px}
+.transcript .teach{margin-top:9px;background:rgba(255,255,255,.08);border-radius:10px;padding:8px 10px;font-size:14px}
+.transcript .newwords{margin-top:9px;display:flex;flex-wrap:wrap;gap:6px}
+.transcript .nw{background:rgba(60,187,160,.18);border-radius:10px;padding:5px 9px;font-size:14px}
+.transcript .nw .han{display:inline;font-size:18px}
+.transcript .nw .py{display:inline;margin-left:4px}
+.wcount{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.wcount .stat b{font-size:22px}
+.lvlrow{display:grid;grid-template-columns:44px 1fr;gap:10px;align-items:center;padding:9px 0;border-bottom:1px solid var(--line);font-size:15px}
+.lvlrow .badge{display:grid;place-items:center;height:30px;border-radius:9px;background:var(--sink);font-weight:700;font-size:14px;color:var(--muted)}
+.lvlrow.past .badge{background:var(--jade-soft);color:var(--jade-ink)}
+.lvlrow.cur .badge{background:var(--jade);color:#fff}
+.lvlrow.cur{font-weight:600}
+.checkcard{background:var(--card);border:1px solid var(--line);border-radius:var(--r-l);padding:16px 18px;margin:12px 0}
+.checkcard h3{margin:0 0 8px;font-size:17px}
+.checkcard dl{display:grid;grid-template-columns:auto 1fr;gap:6px 12px;margin:0;font-size:15px}
+.checkcard dt{color:var(--muted)}
+.checkcard dd{margin:0}
+.celebrate{background:var(--jade);color:#fff;border-radius:var(--r-l);padding:16px 18px;margin:12px 0}
+.celebrate b{display:block;font-size:19px;margin-bottom:4px}
+.mist{padding:8px 0;border-bottom:1px solid var(--line);font-size:15px;display:flex;justify-content:space-between;gap:10px}
+.mist .n{color:var(--bad);font-weight:700;white-space:nowrap}
 
 </style>
 </head>
@@ -288,7 +333,9 @@ body.incall nav.tabs{display:none}
       <span class="streakpill" id="streakPill">0-day streak</span>
     </div>
   </div>
-  <button class="btn primary big" id="startCall"><span class="dot-wave" aria-hidden="true"><i></i><i></i><i></i></span> Start talking</button>
+  <div id="checkCard"></div>
+  <div id="tutorCard"></div>
+  <button class="btn ghost" id="startCall">Free conversation or role-play</button>
   <p class="sub center" id="callHint"></p>
   <div id="resume"></div>
   <h2>Keep going</h2>
@@ -305,8 +352,9 @@ body.incall nav.tabs{display:none}
   <header class="hero"><h1>What shall we talk about?</h1>
   <p class="sub">She adapts to your level and works in the words you're learning.</p></header>
   <div class="segbar" role="tablist">
-    <button role="tab" data-mode="roleplay" aria-selected="true">Role-play</button>
-    <button role="tab" data-mode="lesson" aria-selected="false">Lesson</button>
+    <button role="tab" data-mode="tutor" aria-selected="true">Daily session</button>
+    <button role="tab" data-mode="roleplay" aria-selected="false">Role-play</button>
+    <button role="tab" data-mode="lesson" aria-selected="false">Word lesson</button>
   </div>
   <div id="sceneList"></div>
 </section>
@@ -347,12 +395,16 @@ body.incall nav.tabs{display:none}
   </div>
   <h2>Last 14 days</h2>
   <div class="weeks" id="weeks"></div>
+  <h2>Your progress</h2>
+  <div id="progressBox"></div>
   <div id="audioNote"></div>
   <h2>Conversation</h2>
   <div class="field"><label for="set-voice">Her voice</label>
     <select id="set-voice"><option value="warm">Warm</option><option value="calm">Calm and slow</option><option value="bright">Bright</option></select></div>
   <div class="field"><label for="set-goal">Daily speaking goal</label>
-    <select id="set-goal"><option value="5">5 minutes</option><option value="10">10 minutes</option><option value="15">15 minutes</option><option value="20">20 minutes</option></select></div>
+    <select id="set-goal"><option value="5">5 minutes</option><option value="10">10 minutes</option><option value="15">15 minutes</option><option value="20">20 minutes</option><option value="30">30 minutes</option></select></div>
+  <div class="field"><label for="set-fix">Corrections</label>
+    <select id="set-fix"><option value="now">Straight away</option><option value="end">At the end</option></select></div>
   <div class="field"><label for="set-hands">Conversation flow</label>
     <select id="set-hands"><option value="1">Continuous — she listens after every reply</option><option value="0">Tap to speak each time</option></select></div>
   <h2>Study</h2>
@@ -385,9 +437,11 @@ body.incall nav.tabs{display:none}
     <button class="iconbtn" id="callHands" aria-pressed="false" aria-label="Pause the conversation">⏸</button>
   </div>
   <div class="targets" id="tgtRow"></div>
+  <div class="stagebar" id="stageRow" hidden></div>
   <div class="stage">
     <div class="orb" id="orb" data-state="idle"><span class="orbface">依</span></div>
     <p class="status" id="callStatus">Tap the mic and say hello</p>
+    <button class="helpchip" id="callHelp">Stuck? Get a hint</button>
   </div>
   <div class="transcript" id="transcript" aria-live="polite"></div>
   <div class="calldock">
@@ -462,13 +516,18 @@ function firstSense(w){
 
 // ---------- state & storage ----------
 const DEFAULT = {v:2, srs:{}, days:[], newLog:{}, secs:{}, sessions:[], vocab:{},
-  settings:{list:"all", newPerDay:10, auto:"both", rate:0.85, voice:"warm", goalMin:10, hands:1, micState:""},
-  profile:{level:"", goals:[], done:false}, drill:{answered:0, right:0}, updatedAt:0};
+  settings:{list:"all", newPerDay:10, auto:"both", rate:0.85, voice:"warm", goalMin:15, hands:1, micState:"", fixMode:"now"},
+  profile:{level:"", goals:[], done:false}, drill:{answered:0, right:0},
+  tutor:{start:0, n:0, week:0, words:{}, mistakes:{}, lessons:[], checks:[], lastCheckN:0, checkDue:false, homework:"", next:""},
+  updatedAt:0};
 let S = structuredClone(DEFAULT);
 const LS_KEY = "mt3000-progress";
 try { const raw = localStorage.getItem(LS_KEY); if (raw) S = Object.assign(structuredClone(DEFAULT), JSON.parse(raw)); } catch(e) {}
 S.settings = Object.assign({}, DEFAULT.settings, S.settings);
 S.profile = Object.assign({}, DEFAULT.profile, S.profile);
+S.tutor = Object.assign(structuredClone(DEFAULT.tutor), S.tutor);
+for (const k of ["words","mistakes"]) if (!S.tutor[k] || typeof S.tutor[k] !== "object") S.tutor[k] = {};
+for (const k of ["lessons","checks"]) if (!Array.isArray(S.tutor[k])) S.tutor[k] = [];
 for (const k of ["secs","vocab","newLog","srs"]) if (!S[k] || typeof S[k] !== "object") S[k] = {};
 if (!Array.isArray(S.sessions)) S.sessions = [];
 if (!Array.isArray(S.days)) S.days = [];
@@ -933,8 +992,9 @@ function renderHome(){
   $("callHint").textContent = aiOn() ? (SR ? "She speaks, you answer out loud, she answers back." : "Type your replies — she answers out loud.")
     : "Add a free Gemini key (or a Claude key) in the Me tab to start talking.";
   const last = S.sessions[S.sessions.length-1];
-  $("resume").innerHTML = last && last.scene ? `<div class="resume"><span><b>${esc(last.sceneName||last.scene)}</b><br><span class="sub">${last.turns} turns · ${mmss(last.secs||0)}</span></span><button id="resumeBtn">Again</button></div>` : "";
-  if (last && last.scene) $("resumeBtn").onclick = () => { const sc = SCENES.find(s => s.id === last.scene); if (sc) startCall(sc); else show("talk"); };
+  renderTutorHome();
+  $("resume").innerHTML = last && last.scene && last.scene !== "tutor" ? `<div class="resume"><span><b>${esc(last.sceneName||last.scene)}</b><br><span class="sub">${last.turns} turns · ${mmss(last.secs||0)}</span></span><button id="resumeBtn">Again</button></div>` : "";
+  if ($("resumeBtn")) $("resumeBtn").onclick = () => { const sc = SCENES.find(s => s.id === last.scene); if (sc) startCall(sc); else show("talk"); };
   const w = wordOfDay();
   $("bridgeCard").innerHTML = `<h2>Today's bridge word</h2><div class="bridge">
     <div class="pair">
@@ -949,10 +1009,248 @@ function renderHome(){
     ? `<h2>From your last conversation</h2><div class="mini"><h3>Corrections</h3>${last.fixes.slice(0,3).map(f => `<div class="sub">✎ ${esc(f)}</div>`).join("")}</div>` : "";
   renderAudioNote();
 }
-$("startCall").onclick = () => show("talk");
+$("startCall").onclick = () => { talkMode = "roleplay"; show("talk"); };
 $("tReview").onclick = () => { show("review"); };
 $("tNew").onclick = () => { show("review"); };
 $("tVocab").onclick = () => { show("words"); setFilter("mine"); };
+
+
+// ---------- daily tutor ----------
+const SESSION_NEW_MAX = 5;   // new words per session (hard ceiling 7 in the method)
+const CURRIC = [
+  {t:"Hello and who you are",       p:"我是… / 我叫… / 你呢？",            b:"係 hai6 → 是 shì · 唔 m4 → 不 bù"},
+  {t:"Your family",                 p:"有 / 没有 · 几个…？",                b:"冇 mou5 → 没有 méiyǒu · 佢 keoi5 → 他/她 tā"},
+  {t:"How have you been?",          p:"…怎么样？ · 很… / 有点… / 还可以",   b:"點呀 dim2 aa3 → 怎么样 zěnmeyàng · 攰 gui6 → 累 lèi"},
+  {t:"Eating together",             p:"想 + verb · 吃 / 喝",                b:"食 sik6 → 吃 chī · 飲 jam2 → 喝 hē"},
+  {t:"Your day",                    p:"几点…？ · 在 + verb (doing it now)", b:"緊 gan2 → 在 zài (我在吃饭)"},
+  {t:"What you did",                p:"verb + 了 · verb + 过",              b:"咗 zo2 → 了 le"},
+  {t:"Weekend plans",               p:"要 / 打算 · 什么时候？",             b:"幾時 gei2 si4 → 什么时候 shénme shíhou"},
+  {t:"Home and where things are",   p:"在 + place · 哪儿？",                b:"喺 hai2 → 在 zài · 邊度 bin1 dou6 → 哪儿 nǎr"},
+  {t:"Comparing things",            p:"A 比 B + adjective",                 b:"我高過你 → 我比你高"},
+  {t:"Likes and hobbies",           p:"喜欢 + verb · verb + 得 + 很好",     b:"鍾意 zung1 ji3 → 喜欢 xǐhuan"},
+  {t:"Kids, school and helping out",p:"先 + verb · 给 + person + thing",    b:"你行先 → 你先走 · 畀 bei2 → 给 gěi"},
+  {t:"Telling a story",             p:"因为…所以… · 虽然…但是… · 然后",     b:"雖然…但係 → 虽然…但是"},
+  {t:"Catching up with everyone",   p:"Review — mix everything",            b:"Your own Cantonese → Mandarin swaps"}
+];
+const STAGES = [["warm","Warm-up"],["new","New"],["practice","Practice"],["wrap","Wrap-up"]];
+const CEFR = [
+  ["A0","Starting out"],
+  ["A1","Introduce yourself, order food, ask basic questions"],
+  ["A2","Describe your routine, talk about the past, handle simple trips"],
+  ["B1","Give opinions, tell stories, cope with the unexpected"],
+  ["B2","Argue a point, follow complex talk, speak fluently"],
+  ["C1","Use Mandarin flexibly with anyone"]
+];
+function latestLevel(){ const c = S.tutor.checks[S.tutor.checks.length - 1]; return c && c.level || ""; }
+function tDay(){ return S.tutor.start ? today() - S.tutor.start + 1 : 1; }
+function wordStatus(w){ if (w.uses >= 3) return "known"; if (S.tutor.n - w.s < 2) return "new"; return "learning"; }
+function tutorWords(){ return Object.entries(S.tutor.words).map(([zh, w]) => Object.assign({zh}, w, {st:wordStatus(w)})); }
+function wordCounts(){ const c = {new:0, learning:0, known:0}; for (const w of tutorWords()) c[w.st]++; return c; }
+function mistakeKey(t){ return String(t || "").toLowerCase().replace(/[^\p{L}\p{N}]+/gu, " ").trim(); }
+function topMistakes(n){ return Object.values(S.tutor.mistakes).sort((a,b) => b.n - a.n || b.last - a.last).slice(0, n); }
+function asWord(zh, py, en){
+  const hit = W.find(w => w.s === zh);
+  return hit || {rank:"t:" + zh, s:zh, t:zh, py:py || "", syl:null, m:en || "", canto:"", l21:"—"};
+}
+// bookkeeping after every reply: mistakes, word credit, stages, new words
+function afterTurn(d, said){
+  const fresh = [];
+  if (!C) return fresh;
+  if (said && d.fix && d.pattern){
+    const k = mistakeKey(d.pattern);
+    if (k){
+      const m = S.tutor.mistakes[k] || {t:String(d.pattern).slice(0, 80), n:0, ex:"", last:0};
+      m.n++; m.ex = String(d.fix).slice(0, 200); m.last = today();
+      S.tutor.mistakes[k] = m;
+      if (!C.patterns.includes(k)) C.patterns.push(k);
+      const keys = Object.keys(S.tutor.mistakes);
+      if (keys.length > 60) for (const x of topMistakes(999).slice(60)) delete S.tutor.mistakes[mistakeKey(x.t)];
+    }
+  }
+  if (said){
+    for (const [zh, w] of Object.entries(S.tutor.words)){
+      if (!said.includes(zh)) continue;
+      if (!d.fix) w.uses = (w.uses || 0) + 1;
+      else if (w.uses >= 3 && !String(d.fix).includes(zh)) w.uses = 2;   // misused a known word: back to learning
+    }
+  }
+  if (C.scene.id !== "tutor") return fresh;
+  const order = STAGES.map(s => s[0]);
+  if (d.stage && order.includes(d.stage) && order.indexOf(d.stage) >= order.indexOf(C.stage || "warm")){ C.stage = d.stage; drawStages(); }
+  if (Array.isArray(d.new)){
+    for (const x of d.new){
+      if (!x || !x.zh || C.newWords.length >= 7) continue;
+      const zh = String(x.zh).trim().slice(0, 12);
+      if (!zh || S.tutor.words[zh]) continue;
+      S.tutor.words[zh] = {py:String(x.py || ""), en:String(x.en || ""), s:S.tutor.n, uses:0};
+      C.newWords.push(zh);
+      fresh.push({zh, py:String(x.py || ""), en:String(x.en || "")});
+      const w = asWord(zh, x.py, x.en);
+      if (!C.targets.some(t => t.s === zh) && C.targets.length < 6){ C.targets.push(w); drawTargets(); }
+    }
+  }
+  if (d.stage === "wrap" && (d.homework || d.next || d.note)){
+    C.wrap = {homework:String(d.homework || "").slice(0, 300), next:String(d.next || "").slice(0, 120), summary:String(d.note || "").slice(0, 400)};
+  }
+  save();
+  return fresh;
+}
+function drawStages(){
+  const row = $("stageRow"); if (!row) return;
+  if (!C || C.scene.id !== "tutor"){ row.hidden = true; return; }
+  const order = STAGES.map(s => s[0]), at = order.indexOf(C.stage || "warm");
+  row.innerHTML = STAGES.map(([id, label], i) => `<span class="stg ${i === at ? "on" : i < at ? "done" : ""}">${i < at ? "✓ " : ""}${label}</span>`).join("")
+    + (at < 3 ? `<button class="stg wrapbtn" id="wrapBtn">Finish</button>` : "");
+  const b = $("wrapBtn");
+  if (b) b.onclick = () => { if (!C || busy) return; C.wrapNow = true; stopSpeech(); clearTimeout(herTimer); sendTurn("(please wrap up the session now)", true); };
+}
+function tutorTargets(){
+  // only words she has actually taught him; new ones join as they're introduced
+  return tutorWords().filter(w => w.st !== "known").sort((a,b) => a.uses - b.uses).slice(0, 3).map(w => asWord(w.zh, w.py, w.en));
+}
+function startTutor(){
+  if (!aiOn()){ toast("Add a key in the Me tab first."); show("me"); return; }
+  if (!S.tutor.start){ S.tutor.start = today(); save(); }
+  startCall({id:"tutor", name:"Today's session", g:"课", lvl:"", hint:"", open:""}, tutorTargets());
+}
+function finishTutorSession(c){
+  const T = S.tutor;
+  T.n++;
+  if (c.wrap){ if (c.wrap.homework) T.homework = c.wrap.homework; if (c.wrap.next) T.next = c.wrap.next; }
+  T.lessons.push({idx:T.n, at:today(), week:T.week, secs:c.secs, turns:c.n, words:c.newWords.slice(),
+    fixes:c.fixes.slice(-8), said:c.heard.slice(-15).map(s => s.slice(0, 120)), wrapped:!!c.wrap,
+    summary:c.wrap ? c.wrap.summary : ""});
+  if (T.lessons.length > 40) T.lessons = T.lessons.slice(-40);
+  // taught words that are in the dictionary also go into spaced-repetition review
+  for (const zh of c.newWords){ const w = W.find(x => x.s === zh); if (w && !S.srs[w.rank]) S.vocab[w.rank] = today(); }
+  if (T.n - T.lastCheckN >= 7) T.checkDue = true;
+}
+function showTutorReport(c){
+  const fresh = c.newWords.map(zh => Object.assign({zh}, S.tutor.words[zh] || {}));
+  const flagged = c.patterns.map(k => S.tutor.mistakes[k]).filter(m => m && m.n >= 3);
+  const inDict = c.newWords.filter(zh => W.some(w => w.s === zh)).length;
+  const praise = c.fixes.length === 0 ? "No corrections needed — lovely." : c.n >= 8 ? "Great stamina today." : "Every sentence counts.";
+  $("resume").innerHTML = `<div class="mini" id="reportCard">
+    <h3>Session ${S.tutor.n} done · ${mmss(c.secs)}</h3>
+    <p class="sub">${c.n} thing${c.n===1?"":"s"} said · ${fresh.length} new word${fresh.length===1?"":"s"} · ${praise}</p>
+    ${c.wrap && c.wrap.summary ? `<p style="margin:8px 0 0">${esc(c.wrap.summary)}</p>` : ""}
+    ${fresh.length ? `<h3 style="margin-top:14px">New today</h3><div class="targets" style="justify-content:flex-start">${fresh.map(w => `<span class="tgt"><span class="han">${esc(w.zh)}</span><span class="py">${esc(w.py||"")}</span></span>`).join("")}</div>
+      ${inDict ? `<p class="sub" style="margin-top:6px">${inDict} of these will also come up in Review.</p>` : ""}` : ""}
+    ${c.fixes.length ? `<h3 style="margin-top:14px">${S.settings.fixMode === "end" ? "Your corrections" : "Corrections"}</h3>${c.fixes.map(f => `<div class="sub">✎ ${esc(f)}</div>`).join("")}` : ""}
+    ${flagged.length ? `<div class="hw"><b>Pattern to watch</b>${flagged.map(m => `${esc(m.t)} — ${m.n} times now`).join("<br>")}</div>` : ""}
+    ${c.wrap && c.wrap.homework ? `<div class="hw"><b>Mini homework</b>${esc(c.wrap.homework)}</div>` : ""}
+    ${c.wrap && c.wrap.next ? `<p class="sub" style="margin-top:10px">Next time: ${esc(c.wrap.next)}</p>` : ""}
+    ${!c.wrap ? `<p class="sub" style="margin-top:10px">Ended before the wrap-up, so there's no homework this time.</p>` : ""}
+  </div>`;
+  const rc = $("reportCard"); if (rc) rc.scrollIntoView({block:"center", behavior:"smooth"});
+  renderTutorHome();
+}
+function tutorCardHTML(full){
+  const T = S.tutor, wk = CURRIC[T.week] || CURRIC[0], budget = S.settings.goalMin || 15;
+  const last = T.lessons[T.lessons.length - 1], gap = last ? today() - last.at : 0;
+  const doneToday = last && last.at === today();
+  const cut = f => Math.max(1, Math.round(budget * f));
+  const plan = `<div class="plan"><span><b>Warm-up</b>${cut(.15)} min</span><span><b>New</b>${cut(.45) - cut(.15)} min</span><span><b>Practice</b>${cut(.87) - cut(.45)} min</span><span><b>Wrap-up</b>${Math.max(1, budget - cut(.87))} min</span></div>`;
+  return `<div class="tutorcard">
+    <p class="eyebrow">${T.start ? `Day ${Math.min(tDay(), 90)} of 90 · ` : ""}Week ${T.week + 1} of ${CURRIC.length}</p>
+    <h3>${esc(wk.t)}</h3>
+    <p class="patline">Pattern: <span class="han">${esc(wk.p)}</span></p>
+    <span class="bridgeline">粵 ${esc(wk.b)}</span>
+    ${full ? plan : ""}
+    ${gap >= 3 ? `<div class="welcome">Welcome back. Today starts with an easy refresher — no catching up needed.</div>` : ""}
+    ${T.homework ? `<div class="hw"><b>Your homework</b>${esc(T.homework)}</div>` : ""}
+    ${full ? `<p class="sub" style="margin-top:10px">She warms you up, teaches up to ${SESSION_NEW_MAX} new words in context, runs a role-play with family or friends, then wraps up with a small challenge. Say “help” or tap the hint button if you get stuck.</p>` : ""}
+    <button class="btn primary big" data-tutor="1"><span class="dot-wave" aria-hidden="true"><i></i><i></i><i></i></span> ${doneToday ? "Another session" : `Start today's ${budget}-minute session`}</button>
+    ${!aiOn() ? `<p class="sub" style="margin-top:8px">Add a free Gemini key (or a Claude key) in the Me tab first.</p>` : ""}
+  </div>`;
+}
+function wireTutorCard(root){ root.querySelectorAll("[data-tutor]").forEach(b => b.onclick = startTutor); }
+function renderTutorHome(){
+  const host = $("tutorCard"); if (!host) return;
+  host.innerHTML = tutorCardHTML(false); wireTutorCard(host);
+  const cc = $("checkCard"); if (!cc) return;
+  cc.innerHTML = S.tutor.checkDue ? `<div class="celebrate"><b>Your weekly check is ready</b>7 sessions done. See what's improved and what to focus on next.
+    <button class="btn" id="runCheckHome" style="margin-top:10px;background:#fff;color:var(--jade-ink)">See my progress</button></div>` : "";
+  const b = $("runCheckHome"); if (b) b.onclick = () => runCheck(cc);
+}
+// ---------- weekly progress check ----------
+async function runCheck(host){
+  const T = S.tutor;
+  const since = T.lessons.filter(l => l.idx > T.lastCheckN);
+  if (!since.length){ toast("Do a daily session first."); return; }
+  if (!aiOn()){ toast("Add a key in the Me tab first."); return; }
+  host.innerHTML = `<div class="checkcard"><p class="sub">依依 is looking over your week…</p></div>`;
+  const newWords = tutorWords().filter(w => w.s >= T.lastCheckN).length;
+  const weeks = [...new Set(since.map(l => l.week))].map(i => CURRIC[i] && CURRIC[i].p).filter(Boolean);
+  const recurring = topMistakes(3).filter(m => m.n >= 3);
+  const mins = Math.round(since.reduce((a, l) => a + (l.secs || 0), 0) / 60);
+  const prev = latestLevel();
+  const wk = CURRIC[T.week];
+  const said = since.flatMap(l => l.said || []).slice(-40);
+  const fixes = since.flatMap(l => l.fixes || []).slice(-20);
+  let r;
+  try {
+    r = await SAMPLE.json(`You are a Mandarin tutor writing a short weekly progress check for William, an adult Cantonese speaker learning spoken Mandarin for everyday chat with family and friends.
+Sessions this period: ${since.length}, about ${mins} minutes of speaking. Current course pattern: ${wk.p}. Previous level estimate: ${prev || "none"}.
+Things he said (his own words, most recent last):
+${said.map(s => "- " + s).join("\n") || "- (none recorded)"}
+Corrections he received:
+${fixes.map(s => "- " + s).join("\n") || "- none"}
+Recurring mistakes: ${recurring.map(m => `${m.t} (${m.n})`).join("; ") || "none"}.
+Estimate his CEFR speaking level (A0, A1, A2, B1, B2 or C1) from what he actually said, not from effort. Decide whether he uses the current pattern correctly about 80% of the time.
+Reply with only JSON: {"level":"A1","strongest":"speaking or listening","focus":"the one specific gap to work on next week, one sentence","progress":"specific improvements, one or two sentences","next":"the next CEFR milestone in plain words","ready":true}`, {maxTokens:1200});
+  } catch(e){
+    host.innerHTML = `<div class="checkcard"><p class="sub">${esc(handleAIError(e))}</p><button class="btn ghost" id="checkRetry">Try again</button></div>`;
+    $("checkRetry").onclick = () => runCheck(host);
+    return;
+  }
+  const lv = CEFR.some(c => c[0] === String(r && r.level || "").toUpperCase()) ? String(r.level).toUpperCase() : (prev || "A0");
+  const advanced = !!(r && r.ready) && T.week < CURRIC.length - 1;
+  const check = {at:today(), n:T.n, level:lv, strongest:String(r && r.strongest || "").slice(0, 40),
+    focus:String(r && r.focus || "").slice(0, 300), progress:String(r && r.progress || "").slice(0, 400), next:String(r && r.next || "").slice(0, 200),
+    newWords, patterns:weeks, recurring:recurring.map(m => `${m.t} (${m.n})`), mins, advanced, sessions:since.length};
+  T.checks.push(check); if (T.checks.length > 20) T.checks = T.checks.slice(-20);
+  if (advanced) T.week++;
+  T.lastCheckN = T.n; T.checkDue = false;
+  save();
+  const rank = x => CEFR.findIndex(c => c[0] === x);
+  const up = prev && rank(lv) > rank(prev);
+  const party = up ? `<div class="celebrate"><b>You've reached ${esc(lv)}!</b>${esc(CEFR[rank(lv)][1])}. That's a real milestone — well done.</div>` : "";
+  if (host.id === "progressBox"){ renderProgress(); host.insertAdjacentHTML("afterbegin", party); }
+  else { renderTutorHome(); host.innerHTML = party + checkHTML(check); }
+}
+function checkHTML(c){
+  return `<div class="checkcard"><h3>Weekly check · after session ${c.n}</h3><dl>
+    <dt>New words</dt><dd>${c.newWords}</dd>
+    <dt>Grammar</dt><dd>${esc(c.patterns.join(" · ") || "—")}</dd>
+    <dt>Keeps slipping</dt><dd>${esc(c.recurring.join("; ") || "Nothing repeated 3+ times")}</dd>
+    <dt>Strongest</dt><dd>${esc(c.strongest || "—")}</dd>
+    <dt>Next week</dt><dd>${esc(c.focus || "—")}</dd>
+    <dt>Level</dt><dd><b>${esc(c.level)}</b></dd>
+    <dt>Progress</dt><dd>${esc(c.progress || "—")}</dd>
+    <dt>Working toward</dt><dd>${esc(c.next || "—")}</dd>
+  </dl>${c.advanced ? `<p class="sub" style="margin:10px 0 0">You're using this week's pattern well, so the course moves on to the next week.</p>` : `<p class="sub" style="margin:10px 0 0">The course stays on this week's pattern until it feels natural.</p>`}</div>`;
+}
+function renderProgress(){
+  const host = $("progressBox"); if (!host) return;
+  const T = S.tutor, c = wordCounts(), lv = latestLevel(), cur = CEFR.findIndex(x => x[0] === lv);
+  const lastCheck = T.checks[T.checks.length - 1];
+  const pending = T.n - T.lastCheckN;
+  const flagged = topMistakes(5).filter(m => m.n >= 3);
+  host.innerHTML = `<div class="wcount">
+      <div class="stat"><b>${c.new}</b><span>new words</span></div>
+      <div class="stat"><b>${c.learning}</b><span>learning</span></div>
+      <div class="stat"><b>${c.known}</b><span>known (used 3+ times)</span></div>
+    </div>
+    <p class="sub" style="margin-top:10px">${T.n} daily session${T.n===1?"":"s"} · course week ${T.week + 1} of ${CURRIC.length}: ${esc((CURRIC[T.week]||CURRIC[0]).t)}</p>
+    ${lastCheck ? checkHTML(lastCheck) : ""}
+    <button class="btn ghost" id="runCheckMe" ${pending ? "" : "disabled"}>${pending ? `Run a progress check (${pending} session${pending===1?"":"s"} since the last)` : "Progress check — do a session first"}</button>
+    ${flagged.length ? `<h2>Keeps slipping</h2>${flagged.map(m => `<div class="mist"><span>${esc(m.t)}<br><span class="sub">${esc(m.ex)}</span></span><span class="n">×${m.n}</span></div>`).join("")}` : ""}
+    <h2>Milestones</h2>
+    ${CEFR.map((x, i) => `<div class="lvlrow ${i === cur ? "cur" : i < cur ? "past" : ""}"><span class="badge">${x[0]}</span><span>${esc(x[1])}${i === cur ? " — you are here" : ""}</span></div>`).join("")}
+    ${cur < 0 ? `<p class="sub" style="margin-top:8px">Your level appears after your first progress check.</p>` : ""}`;
+  const b = $("runCheckMe"); if (b) b.onclick = () => runCheck(host);
+}
 
 // ---------- partner, scenes ----------
 const PARTNER = {name:"依依", py:"Yīyī", face:"依"};
@@ -966,16 +1264,25 @@ const SCENES = [
   {id:"hotel", g:"店", cat:"travel", lvl:"Medium", name:"Check into a hotel",  hint:"Booking, room, breakfast time",       open:"您好，请问有预订吗？"},
   {id:"work",  g:"工", cat:"work",   lvl:"Medium", name:"Talk about work",     hint:"Your job, your day, colleagues",      open:"你做什么工作？平时忙不忙？"},
   {id:"doc",   g:"医", cat:"work",   lvl:"Harder", name:"At the pharmacy",     hint:"Symptoms, medicine, advice",          open:"你好，哪里不舒服？"},
-  {id:"family",g:"家", cat:"daily",  lvl:"Medium", name:"Family and home",     hint:"Who's at home, your routine",         open:"你家里有几个人？"},
-  {id:"plan",  g:"约", cat:"daily",  lvl:"Harder", name:"Make plans",          hint:"Times, places, agreeing to meet",     open:"这个周末你有空吗？我们出去玩吧。"},
+  {id:"family",g:"家", cat:"family", lvl:"Easy",   name:"Family and home",     hint:"Who's at home, your routine",         open:"你家里有几个人？"},
+  {id:"catch", g:"友", cat:"family", lvl:"Easy",   name:"Catch up with a friend", hint:"How you've been, what's new",     open:"好久不见！你最近怎么样？"},
+  {id:"dinner",g:"饭", cat:"family", lvl:"Easy",   name:"Family dinner",       hint:"Food, seconds, who cooked",          open:"来，吃饭了！你饿不饿？"},
+  {id:"call",  g:"话", cat:"family", lvl:"Medium", name:"Phone a relative",    hint:"News, health, when you'll visit",    open:"喂？是你吗？好久没打电话了，你们都好吗？"},
+  {id:"kids",  g:"孩", cat:"family", lvl:"Medium", name:"Talk about your kids", hint:"Ages, school, what they like",      open:"你有孩子吗？多大了？"},
+  {id:"plan",  g:"约", cat:"family", lvl:"Harder", name:"Make plans",          hint:"Times, places, agreeing to meet",     open:"这个周末你有空吗？我们出去玩吧。"},
   {id:"free",  g:"随", cat:"daily",  lvl:"Any",    name:"Just chat",           hint:"Anything you like",                   open:"我们随便聊聊吧。你今天想说什么？"}
 ];
-let talkMode = "roleplay";
+let talkMode = "tutor";
 function renderScenes(){
   document.querySelectorAll('[data-mode]').forEach(b => b.setAttribute("aria-selected", String(b.dataset.mode === talkMode)));
   const host = $("sceneList");
   if (!aiOn()){
     host.innerHTML = `<div class="note"><b>Add a key first.</b><br>Go to the Me tab. Google Gemini's free tier costs nothing and needs no card; a Claude key also works. Then come back and pick something to talk about. Cards, drills and the word list work without it.</div>`;
+    return;
+  }
+  if (talkMode === "tutor"){
+    host.innerHTML = tutorCardHTML(true);
+    wireTutorCard(host);
     return;
   }
   if (talkMode === "lesson"){
@@ -987,7 +1294,7 @@ function renderScenes(){
     $("startLesson").onclick = () => startCall({id:"lesson", name:"Lesson", g:"学", lvl:"", open:""}, t);
     return;
   }
-  const cats = [["daily","Everyday"],["food","Food and shopping"],["travel","Out and about"],["work","Work and health"]];
+  const cats = [["family","Family and friends"],["daily","Everyday"],["food","Food and shopping"],["travel","Out and about"],["work","Work and health"]];
   host.innerHTML = cats.map(([c,label]) => {
     const list = SCENES.filter(s => s.cat === c);
     return `<h2>${esc(label)}</h2><div class="scenes">${list.map(s => `
@@ -1014,28 +1321,72 @@ function pickTargets(n){
 let C = null, callTimer = null, rec = null, busy = false, ctl = null;
 const ORB = st => { const o = $("orb"); if (o) o.dataset.state = st; };
 function setStatus(t){ $("callStatus").textContent = t; }
-function callRules(){
-  const tg = C.targets.map(w => `${w.s} (${w.py.split(" / ")[0]} = ${firstSense(w)})`).join("; ");
-  const goals = goalNames().length ? goalNames().join(", ") : "everyday conversation";
-  const lvlNote = {new:"He is a near beginner: use only the simplest HSK 1 words, one short sentence at a time.",
+function levelNote(){
+  const est = latestLevel();
+  const base = {new:"He is a near beginner: use only the simplest HSK 1 words, one short sentence at a time.",
     some:"He can manage simple sentences: keep to HSK 1-2 vocabulary, at most two short sentences.",
     ok:"He can hold a basic conversation: HSK 1-3 vocabulary, at most two sentences."}[S.profile.level] || "Keep to HSK 1-3 vocabulary, at most two short sentences.";
+  return base + (est ? ` His latest estimated level is ${est}; pitch it there.` : "");
+}
+function replyRules(tutor){
+  const tg = C.targets.map(w => `${w.s} (${w.py.split(" / ")[0]} = ${firstSense(w)})`).join("; ") || "none yet";
+  const labels = topMistakes(12).map(m => `"${m.t}"`).join(", ");
+  const fixLine = S.settings.fixMode === "end"
+    ? `He wants corrections saved for the end: still fill "fix", but do not mention the mistake in "zh" — just carry on naturally.`
+    : `He wants corrections straight away: fill "fix" whenever there is a mistake.`;
+  return `Every reply must follow these rules:
+- "zh" is simplified Mandarin only, never Cantonese characters, and always ends with a question or a clear invitation to reply. Keep "zh" in Mandarin even when teaching; English goes only in "en", "fix", "hint" and "note".
+- Use the Mandarin people really say in everyday life, not stiff textbook phrasing.
+- Work in the words he is studying when they fit naturally: ${tg}. One or two per reply at most; never force them.
+- "fix": if his message has a Mandarin mistake, or uses Cantonese words or grammar (係 唔 佢 嘅 咗 睇 食 冇 喺 畀 啲 乜嘢 邊度 鍾意 點解 好睇, or Cantonese word order like "你行先"), give his version, the natural Mandarin with pinyin, and why in one short English sentence. Otherwise "". ${fixLine} Never make him feel bad about a mistake.
+- "pattern": when "fix" is filled, a short English label (max 8 words) for the kind of mistake, so repeats can be spotted.${labels ? ` Reuse one of these labels exactly if it fits: ${labels}.` : ""} Otherwise "".
+- "yue": when a Cantonese-to-Mandarin link helps him remember, one short line like "睇 tai2 → 看 kàn". Otherwise "".
+- "hint": if his message is "(help)", or he says help, 帮帮我, 我不会 or 怎么说, he is stuck: give the Mandarin he could say, with pinyin and English, and in "zh" ask again more simply. Otherwise "".
+- "note": ${tutor ? `when you teach a word or pattern, explain it in plain English in at most 3 sentences; or a one-line cultural or politeness tip (for example 您 vs 你) when it genuinely helps. Otherwise "".` : `a one-line English cultural or politeness tip (for example 您 vs 你) only when it genuinely helps. Otherwise "".`}
+- If he writes English or pinyin, still answer in Mandarin and put the Mandarin he was reaching for in "fix".
+Reply with only JSON: {"zh":"中文","py":"pinyin with tone marks","en":"English translation","fix":"","pattern":"","yue":"","hint":"","note":""${tutor ? `,"stage":"warm","new":[],"homework":"","next":""` : ""}}`;
+}
+function callRules(){
+  if (C.scene.id === "tutor") return tutorRules();
+  const goals = goalNames().length ? goalNames().join(", ") : "everyday conversation";
   const job = C.scene.id === "lesson"
     ? `This is a short teaching session, not a role-play. Work through the target words one at a time: say the word, use it in one very short sentence, then ask him a question that needs that word in the answer. Move to the next word once he has used it.`
-    : `Role-play this situation with him: ${C.scene.name} — ${C.scene.hint}. Stay in character, keep it moving.`;
-  return `You are ${PARTNER.name}, a warm, patient native Mandarin speaker talking with William, an adult learner in the UK. He speaks Cantonese fluently but reads Chinese poorly, so pinyin matters. He is learning Mandarin for: ${goals}. ${lvlNote}
+    : `Role-play this situation with him: ${C.scene.name} — ${C.scene.hint}. Stay in character and keep it moving. Now and then add a small surprise (something has run out, a plan changes) so he has to think on his feet.`;
+  return `You are ${PARTNER.name}, a warm, patient native Mandarin speaker talking with William, an adult learner in the UK. He speaks Cantonese fluently but reads Chinese poorly, so pinyin matters. He is learning Mandarin for: ${goals}. ${levelNote()}
 ${job}
-Every reply must follow these rules:
-- "zh" is simplified Mandarin only, never Cantonese characters, and always ends with a question or a clear invitation to reply.
-- Work in the words he is studying when they fit naturally: ${tg}. One or two per reply at most; never force them.
-- "fix": if his message has a Mandarin mistake, or uses Cantonese words or grammar (係 唔 佢 嘅 咗 睇 食 冇 喺 畀 啲 乜嘢 邊度 鍾意 點解 好睇, or Cantonese word order like "你行先"), give the natural Mandarin, its pinyin, and a few words of English. Otherwise "".
-- "yue": when a Cantonese-to-Mandarin link helps him remember, one short line like "睇 tai2 → 看 kàn". Otherwise "".
-- If he writes English or pinyin, still answer in Mandarin and put the Mandarin he was reaching for in "fix".
-Reply with only JSON: {"zh":"中文","py":"pinyin with tone marks","en":"English translation","fix":"","yue":""}`;
+${replyRules(false)}`;
+}
+function tutorRules(){
+  const T = S.tutor, wk = CURRIC[T.week] || CURRIC[0];
+  const budget = S.settings.goalMin || 15, mins = Math.floor((C.secs || 0) / 60);
+  const cut = f => Math.max(1, Math.round(budget * f));
+  const words = tutorWords();
+  const review = words.filter(w => w.st !== "known").sort((a,b) => a.uses - b.uses).slice(0, 10)
+    .map(w => `${w.zh} (${w.py} = ${w.en})`).join("; ");
+  const known = words.filter(w => w.st === "known").map(w => w.zh).slice(-40).join(" ");
+  const repeats = topMistakes(4).filter(m => m.n >= 2).map(m => `${m.t} (${m.n} times)`).join("; ");
+  const last = T.lessons[T.lessons.length - 1];
+  const gap = last ? today() - last.at : 0;
+  const room = Math.max(0, SESSION_NEW_MAX - C.newWords.length);
+  const goals = goalNames().length ? goalNames().join(", ") : "everyday conversation with family and friends";
+  let pace;
+  if (C.wrapNow || mins >= budget) pace = `It is time to finish: move to "wrap" now.`;
+  else pace = `${mins} of ${budget} minutes have passed. Rough timing: "warm" until about minute ${cut(.15)}, "new" until about minute ${cut(.45)}, "practice" until about minute ${cut(.87)}, then "wrap". Never go back to an earlier stage.`;
+  return `You are ${PARTNER.name}, a warm, patient native Mandarin speaker and William's personal Mandarin tutor. He is an adult in the UK who speaks Cantonese fluently but reads Chinese poorly, so pinyin matters and Cantonese is your best bridge. He is learning for: ${goals}. ${levelNote()}
+You teach through conversation, not lectures. This is his daily session number ${T.n + 1}. ${pace}
+${gap >= 3 ? `It has been ${gap} days since his last session. Welcome him back warmly with no guilt, and make the warm-up an easy refresher.\n` : ""}Course week ${T.week + 1} of ${CURRIC.length}: "${wk.t}". Grammar pattern: ${wk.p}. Cantonese bridge: ${wk.b}. Keep every situation to everyday life with family and friends.
+Words he is learning: ${review || "none yet"}.${known ? ` Words he already knows (use freely): ${known}.` : ""}${repeats ? `\nMistakes he keeps making — practise one of these in the warm-up and watch for them: ${repeats}.` : ""}
+Run the session in these stages, one short exchange at a time, and set "stage" to the stage you are in:
+1. "warm": one or two quick questions he should manage with words he is learning${last && last.words && last.words.length ? ` (last time he learned ${last.words.join("、")})` : ""}${T.homework ? `; ask about his homework: ${T.homework}` : ""}. If he struggles, do a quick refresher before anything new.
+2. "new": introduce this week's pattern and new words for the topic, always inside a sentence, never as a list. You may introduce at most ${room} more new words or phrases today. For the pattern: explain it in "note" in one or two sentences, show examples, then have him make his own sentences. List each word you introduce for the first time in "new" as {"zh","py","en"}; otherwise "new" is [].
+3. "practice": the bulk of the session. A short role-play with family or friends (a meal, a phone call, catching up) that needs today's words and pattern. Stay in character and add one small surprise.
+4. "wrap": say a short, encouraging goodbye in "zh" that asks if he is ready to stop. In "note" summarise in English what he learned today. In "homework" give one small challenge he can do before the next session (English, with a Mandarin example). In "next" give the next session's topic in a few words.
+${replyRules(true)}`;
 }
 function startCall(scene, targets){
-  if (!aiOn()){ toast("Open from the Claude app to talk with her."); return; }
-  C = {scene, targets: targets || pickTargets(5), used:new Set(), turns:[], fixes:[], n:0, t0:Date.now(), secs:0, heard:[], loop:false};
+  if (!aiOn()){ toast("Add a key in the Me tab first."); return; }
+  C = {scene, targets: targets || pickTargets(5), used:new Set(), turns:[], fixes:[], n:0, t0:Date.now(), secs:0, heard:[], loop:false,
+       stage:"", newWords:[], wrap:null, wrapNow:false, patterns:[]};
   micBlocked = false; silentTries = 0; clearTimeout(restartTimer);
   document.body.classList.add("incall");
   $("call").hidden = false;
@@ -1046,7 +1397,10 @@ function startCall(scene, targets){
   $("callMic").disabled = false; $("callSend").disabled = false;
   $("typeRow").hidden = !!SR;
   $("callMic").dataset.on = "0";
-  drawTargets();
+  $("callHelp").disabled = false;
+  $("stageRow").hidden = scene.id !== "tutor";
+  document.body.classList.toggle("tutoring", scene.id === "tutor");
+  drawTargets(); drawStages();
   clearInterval(callTimer);
   callTimer = setInterval(() => { if (!C) return; C.secs = Math.round((Date.now()-C.t0)/1000); $("callTime").textContent = mmss(C.secs); }, 1000);
   $("callTime").textContent = "0:00";
@@ -1073,7 +1427,7 @@ async function beginConversation(scene){
 function endCall(){
   stopSpeech(); if (ctl) ctl.abort(); stopListening(); clearTimeout(herTimer); clearTimeout(restartTimer);
   clearInterval(callTimer);
-  document.body.classList.remove("incall");
+  document.body.classList.remove("incall", "tutoring");
   $("call").hidden = true;
   const c = C; C = null;
   if (!c) { show("home"); return; }
@@ -1082,6 +1436,7 @@ function endCall(){
     S.sessions.push({at:today(), scene:c.scene.id, sceneName:c.scene.name, secs:c.secs, turns:c.n,
       used:[...c.used], fixes:c.fixes.slice(-6)});
     if (S.sessions.length > 30) S.sessions = S.sessions.slice(-30);
+    if (c.scene.id === "tutor") finishTutorSession(c);
     save();
   }
   showReport(c);
@@ -1212,7 +1567,7 @@ function checkTargets(text){
 async function sendTurn(text, silent){
   text = (text||"").trim();
   if (!text || busy || !C) return;
-  busy = true; stopListening(); clearDraft(); $("callSend").disabled = true; $("callMic").disabled = true;
+  busy = true; stopListening(); clearDraft(); $("callSend").disabled = true; $("callMic").disabled = true; $("callHelp").disabled = true;
   if (!silent){ addLine({zh:text}, "me"); C.heard.push(text); checkTargets(text); C.n++; }
   $("callIn").value = "";
   C.turns.push({role:"user", content:text});
@@ -1222,14 +1577,20 @@ async function sendTurn(text, silent){
   try {
     const recent = C.turns.slice(-12);
     while (recent.length && recent[0].role !== "user") recent.shift();
-    const d = await SAMPLE.json([{role:"user", content:callRules()}, ...recent], {modelTier:"quick", cache:false, signal:ctl.signal});
+    const d = await SAMPLE.json([{role:"user", content:callRules()}, ...recent], {modelTier:"quick", cache:false, signal:ctl.signal, maxTokens:1400});
     if (!d || !d.zh) throw {code:"invalid_json"};
-    bubble.innerHTML = lineHTML(d) + (d.fix?`<div class="fix">✎ ${esc(d.fix)}</div>`:"") + (d.yue?`<div class="yue">粵 ${esc(d.yue)}</div>`:"");
+    const fresh = afterTurn(d, silent ? "" : text);
+    bubble.innerHTML = lineHTML(d)
+      + (d.note?`<div class="teach">💡 ${esc(d.note)}</div>`:"")
+      + (fresh.length?`<div class="newwords">${fresh.map(w => `<button class="nw" data-z="${esc(w.zh)}"><span class="han">${esc(w.zh)}</span><span class="py">${esc(w.py)}</span> · ${esc(w.en)}</button>`).join("")}</div>`:"")
+      + (d.hint?`<div class="hint">🆘 ${esc(d.hint)}</div>`:"")
+      + (d.fix && S.settings.fixMode !== "end"?`<div class="fix">✎ ${esc(d.fix)}</div>`:"")
+      + (d.yue?`<div class="yue">粵 ${esc(d.yue)}</div>`:"");
     wireLines(bubble);
     if (d.fix && !C.fixes.includes(d.fix)) C.fixes.push(d.fix);
     C.turns.push({role:"assistant", content:JSON.stringify(d)});
     bubble.scrollIntoView({block:"end", behavior:"smooth"});
-    busy = false; $("callSend").disabled = false; $("callMic").disabled = false;
+    busy = false; $("callSend").disabled = false; $("callMic").disabled = false; $("callHelp").disabled = false;
     speakHer(d.zh);
   } catch(e){
     C.turns.pop();
@@ -1238,8 +1599,15 @@ async function sendTurn(text, silent){
     ORB("idle"); setStatus("Tap the mic to try again");
   } finally {
     busy = false; $("callSend").disabled = false; $("callMic").disabled = false;
+    if ($("callHelp")) $("callHelp").disabled = false;
   }
 }
+$("callHelp").onclick = () => {
+  if (!C || busy) return;
+  stopSpeech(); clearTimeout(herTimer);
+  addLine({zh:"🆘 Hint please"}, "me");
+  sendTurn("(help)", true);
+};
 $("callEnd").onclick = endCall;
 $("callMic").onclick = () => {
   if ($("callMic").dataset.on === "1"){ stopListening(); ORB("idle"); setStatus(loopOn() ? "Tap the mic when you're ready" : "Paused"); }
@@ -1269,6 +1637,7 @@ function newWordsFrom(c){
 function showReport(c){
   show("home");
   if (!c.n) return;
+  if (c.scene.id === "tutor") return showTutorReport(c);
   const used = [...c.used].map(r => BYRANK.get(r)).filter(Boolean);
   const missed = c.targets.filter(w => !c.used.has(w.rank));
   const fresh = newWordsFrom(c);
@@ -1590,6 +1959,8 @@ function renderMe(){
   $("set-voice").value = S.settings.voice;
   $("set-goal").value = String(S.settings.goalMin);
   $("set-hands").value = String(S.settings.hands ? 1 : 0);
+  $("set-fix").value = S.settings.fixMode === "end" ? "end" : "now";
+  renderProgress();
   $("set-list").value = S.settings.list;
   $("set-new").value = String(S.settings.newPerDay);
   $("set-auto").value = S.settings.auto;
@@ -1597,7 +1968,7 @@ function renderMe(){
   renderKeyBox();
   renderAudioNote();
 }
-for (const [id, key, cast] of [["set-voice","voice",String],["set-goal","goalMin",Number],["set-hands","hands",Number],
+for (const [id, key, cast] of [["set-fix","fixMode",String],["set-voice","voice",String],["set-goal","goalMin",Number],["set-hands","hands",Number],
   ["set-list","list",String],["set-new","newPerDay",Number],["set-auto","auto",String],["set-rate","rate",Number]])
   $(id).addEventListener("change", e => { S.settings[key] = cast(e.target.value); save(); });
 $("redoOnb").onclick = openOnboarding;

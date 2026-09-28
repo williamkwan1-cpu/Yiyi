@@ -4,6 +4,29 @@ A speaking-first Mandarin app for a Cantonese speaker. Runs in the browser, inst
 home screen, and holds a continuous spoken conversation: she speaks, listens, you answer out
 loud, she answers back.
 
+## Daily session (the tutor)
+Home → **Start today's session** (or Talk → Daily session). A session is paced to your daily goal
+(15 minutes by default) and runs in four stages, shown at the top of the call:
+
+1. **Warm-up** — a quick question on words you're learning, your homework, and a repeated mistake.
+2. **New** — up to 5 new words or phrases, always in a sentence, plus the week's grammar pattern,
+   explained in English in three sentences or fewer, with the Cantonese bridge.
+3. **Practice** — a role-play with family or friends that uses today's words, with a small surprise.
+4. **Wrap-up** — a summary, one mini homework challenge, and a preview of next time.
+
+Tap **Stuck? Get a hint** (or say "help" / 帮帮我) for the words you need. Tap **Finish** to wrap up early.
+
+The course follows 13 weekly topics for everyday talk with family and friends. It moves to the next
+week only after a progress check shows the current pattern is being used correctly about 80% of the time.
+
+- **Words** are tracked as *new* (taught in the last 2 sessions), *learning*, or *known* (used
+  correctly 3+ times). A known word that gets corrected drops back to learning. Taught words that are
+  in the dictionary also join Review cards.
+- **Recurring mistakes** are counted by type and flagged after 3 repeats; she practises them in the warm-up.
+- **Weekly check** every 7 sessions (or any time from the Me tab): new words, grammar covered, what keeps
+  slipping, strongest skill, next week's focus and an estimated CEFR level, with milestones A0–C1.
+- **Corrections** (Me tab): straight away, or saved for the end of the session.
+
 ## Files
 - `index.html` — the whole app (3,000-word dictionary included)
 - `manifest.webmanifest`, `sw.js`, `icon-*.png` — what makes it installable and work offline
