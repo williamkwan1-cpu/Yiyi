@@ -33,3 +33,4 @@ picked. Progress is stored the same way.
 
 ## Offline
 Cards, drills and the word list work with no connection. 依依 needs the network.
+Recruit PT
