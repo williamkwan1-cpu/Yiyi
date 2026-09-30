@@ -312,6 +312,64 @@ body.tutoring .stage{gap:6px;padding-top:4px}
 .mist{padding:8px 0;border-bottom:1px solid var(--line);font-size:15px;display:flex;justify-content:space-between;gap:10px}
 .mist .n{color:var(--bad);font-weight:700;white-space:nowrap}
 
+
+/* ---------- Path ---------- */
+.pbar{height:6px;background:var(--sink);border-radius:999px;overflow:hidden;margin:2px 0 8px}
+.pbar i{display:block;height:100%;background:var(--jade);border-radius:999px;transition:width .3s}
+.pnext{background:var(--jade-soft);border-radius:var(--r-l);padding:16px 18px;margin:6px 0 20px}
+.pnext .sub{color:var(--jade-ink);opacity:.85}
+.pnext b{display:block;font-size:19px;color:var(--jade-ink);margin:3px 0 4px}
+.pnext .btn{margin-top:12px;text-align:center;text-decoration:none}
+.pdesc{margin:0;font-size:14.5px;line-height:1.45;color:var(--muted)}
+.pnote{background:var(--sink);border-radius:var(--r-m);padding:12px 14px;margin:12px 0;font-size:14.5px;line-height:1.45;color:var(--muted)}
+.pday{display:grid;gap:9px;margin-bottom:4px}
+.pslot{display:grid;grid-template-columns:76px 1fr;gap:12px;align-items:start;background:var(--card);border:1px solid var(--line);border-radius:var(--r-m);padding:13px 15px}
+.pslot b{font-size:14px;color:var(--jade);font-weight:700;padding-top:1px}
+.pslot .what{display:block;font-weight:600;margin-bottom:2px}
+.pskip{display:grid;gap:12px;margin-bottom:4px}
+.pskip>div{background:var(--card);border:1px solid var(--line);border-radius:var(--r-m);padding:14px 16px}
+.pskip>div.keep{border-color:var(--jade)}
+.pskip h3{margin:0 0 8px;font-size:15px;letter-spacing:.04em;text-transform:uppercase;color:var(--muted)}
+.pskip>div.keep h3{color:var(--jade-ink)}
+.pskip ul{margin:0;padding-left:19px;display:grid;gap:6px}
+.pskip li{font-size:14.5px;line-height:1.45}
+.pstage{background:var(--card);border:1px solid var(--line);border-radius:var(--r-l);margin-bottom:10px;overflow:hidden}
+.pstage.open{border-color:var(--jade)}
+.phead{width:100%;background:none;border:0;padding:15px 44px 15px 16px;text-align:left;display:grid;gap:3px;position:relative;color:var(--ink)}
+.pmeta{display:flex;align-items:center;gap:9px;flex-wrap:wrap}
+.ptitle{font-weight:700;font-size:17px;line-height:1.25}
+.pchev{position:absolute;right:16px;top:50%;margin-top:-11px;font-size:20px;line-height:1;color:var(--muted);transition:transform .2s}
+.pstage.open .pchev{transform:rotate(180deg)}
+.pinner{display:none;padding:0 16px 16px}
+.pstage.open .pinner{display:block}
+.pgoal{margin:0 0 13px;font-size:15px;line-height:1.5}
+.pill{display:inline-block;font-size:12px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;
+  background:var(--sink);color:var(--muted);border-radius:999px;padding:4px 10px}
+.pill.now{background:var(--jade);color:#fff}
+.ptones{display:grid;gap:7px;margin-bottom:14px}
+.ptone{display:grid;grid-template-columns:86px 1fr;gap:11px;align-items:baseline;background:var(--sink);border-radius:var(--r-s);padding:10px 12px}
+.ptone b{font-size:17px;font-family:var(--han)}
+.ptone span{font-size:14px;line-height:1.4;color:var(--muted)}
+.pitem{display:grid;grid-template-columns:30px 1fr;gap:12px;align-items:start;padding:12px 0;border-top:1px solid var(--line)}
+.ptick{width:30px;height:30px;border-radius:9px;border:1.5px solid var(--line);background:var(--card);
+  color:transparent;font-size:16px;font-weight:700;line-height:1;display:grid;place-items:center;flex:none}
+.pitem.on .ptick{background:var(--jade);border-color:var(--jade);color:#fff}
+.pname{margin:0 0 3px;font-weight:600;font-size:16px;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.pname a{color:var(--jade);text-decoration:none;border-bottom:1.5px solid var(--jade-soft)}
+.pitem.on .pname{color:var(--muted)}
+.tag{font-size:11px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;
+  background:var(--jade-soft);color:var(--jade-ink);border-radius:999px;padding:3px 8px}
+.tag.paid{background:var(--sink);color:var(--muted)}
+.pgo{margin-top:9px;background:var(--jade);color:#fff;border:0;border-radius:999px;padding:8px 15px;font-weight:700;font-size:14px}
+.pcard{width:100%;background:var(--card);border:1px solid var(--jade);border-radius:var(--r-l);padding:15px 17px;
+  text-align:left;display:grid;gap:4px;color:var(--ink)}
+.pcard b{font-size:17px;line-height:1.25}
+.pcard .pbar{margin:7px 0 0}
+#pathBody h2{margin:22px 0 10px}
+@media (min-width:560px){
+  .pskip{grid-template-columns:1fr 1fr}
+  .pday{grid-template-columns:1fr 1fr}
+}
 </style>
 </head>
 <body>
@@ -344,6 +402,7 @@ body.tutoring .stage{gap:6px;padding-top:4px}
     <button class="tile" id="tNew"><span class="tnum" id="newNum">0</span><span class="tlab">new words ready</span></button>
     <button class="tile" id="tVocab"><span class="tnum" id="vocabNum">0</span><span class="tlab">saved from talking</span></button>
   </div>
+  <div id="pathNudge"></div>
   <div id="bridgeCard"></div>
   <div id="lastReport"></div>
 </section>
@@ -357,6 +416,15 @@ body.tutoring .stage{gap:6px;padding-top:4px}
     <button role="tab" data-mode="lesson" aria-selected="false">Word lesson</button>
   </div>
   <div id="sceneList"></div>
+</section>
+
+<section class="view" id="v-path" aria-label="Path">
+  <header class="hero">
+    <p class="eyebrow">Mandarin for a Cantonese speaker</p>
+    <h1>The Cantonese Shortcut</h1>
+    <p class="sub">A year of listening, ordered so you skip what you already know and drill only what Cantonese gets wrong.</p>
+  </header>
+  <div id="pathBody"></div>
 </section>
 
 <section class="view" id="v-review" aria-label="Review">
@@ -462,6 +530,7 @@ body.tutoring .stage{gap:6px;padding-top:4px}
 <nav class="tabs" aria-label="Sections">
   <button data-v="home" aria-current="page"><span class="ico">家</span>Home</button>
   <button data-v="talk"><span class="ico">说</span>Talk</button>
+  <button data-v="path"><span class="ico">路</span>Path</button>
   <button data-v="review"><span class="ico">卡</span>Review</button>
   <button data-v="words"><span class="ico">词</span>Words</button>
   <button data-v="me"><span class="ico">我</span>Me</button>
@@ -658,7 +727,7 @@ function listen(onText, onDone){
 // ---------- misc UI ----------
 let toastT;
 function toast(t){ const el=$("toast"); el.textContent=t; el.style.display="block"; clearTimeout(toastT); toastT=setTimeout(()=>el.style.display="none",2200); }
-const VIEWS = ["home","talk","review","words","me"];
+const VIEWS = ["home","talk","path","review","words","me"];
 function show(v){
   stopSpeech();
   for (const x of VIEWS) $("v-"+x).classList.toggle("on", x===v);
@@ -667,6 +736,7 @@ function show(v){
   });
   if (v==="home") renderHome();
   if (v==="talk") renderScenes();
+  if (v==="path") renderPath();
   if (v==="review") renderReview();
   if (v==="words") renderWords(true);
   if (v==="me") renderMe();
@@ -1007,6 +1077,7 @@ function renderHome(){
   $("bwM").onclick = () => { stopSpeech(); speak(w.s, "m"); };
   $("lastReport").innerHTML = last && last.fixes && last.fixes.length
     ? `<h2>From your last conversation</h2><div class="mini"><h3>Corrections</h3>${last.fixes.slice(0,3).map(f => `<div class="sub">✎ ${esc(f)}</div>`).join("")}</div>` : "";
+  renderPathNudge();
   renderAudioNote();
 }
 $("startCall").onclick = () => { talkMode = "roleplay"; show("talk"); };
@@ -1972,6 +2043,230 @@ for (const [id, key, cast] of [["set-fix","fixMode",String],["set-voice","voice"
   ["set-list","list",String],["set-new","newPerDay",Number],["set-auto","auto",String],["set-rate","rate",Number]])
   $(id).addEventListener("change", e => { S.settings[key] = cast(e.target.value); save(); });
 $("redoOnb").onclick = openOnboarding;
+
+
+// ---------- Path: The Cantonese Shortcut ----------
+if (!S.path || typeof S.path !== "object") S.path = {};
+
+const PATH_SKIP = {
+  skip: [
+    '"What is a tone" explainers — you’ve used tones your whole life',
+    "Basic word-order lessons; Mandarin and Cantonese grammar mostly agree",
+    "Formal and technical vocabulary — 政府, 经济, 医生 are shared, just pronounced differently",
+    "Slow HSK 1 vocabulary videos in English"
+  ],
+  keep: [
+    "The four Mandarin tone shapes — they are not Cantonese tones",
+    "zh / ch / sh / r — retroflex sounds Cantonese doesn’t have",
+    "The neutral tone: 朋友 péng<b>you</b>, not péngyǒu",
+    "The everyday words that differ: 睮→看, 食→吃, 係→是",
+    "Simplified characters, if you want to read"
+  ]
+};
+
+const PATH_DAY = [
+  ["20 min", "One video you nearly understand", "Active listening. Pause, replay, don’t look things up."],
+  ["Any", "Passive listening", "A podcast while driving or doing the dishes. Understanding half is fine."],
+  ["10 min", "Cards in this app", "Due reviews first, then a few new words."],
+  ["5 min", "Talk to 依依", "Out loud. Short is fine. Every day beats once a week."]
+];
+
+const PATH_TONES = [
+  [1, "mā 妈", "First: flat and high. Hold one note, like humming."],
+  [2, "má 麻", "Second: rises. Like the end of an English question."],
+  [3, "mǎ 马", "Third: dips low and stays there. Creaky at the bottom."],
+  [4, "mà 骂", "Fourth: drops sharply. Like a firm “No.”"]
+];
+
+// go: ["view"] or ["view","sub-selector-value"] — jumps inside the app instead of out to the web
+const PATH = [
+  { badge: "Start here", when: "2–3 weeks", title: "Fix the tones first",
+    goal: "Your ear already hears pitch. It’s just calibrated to six Cantonese tones, not four Mandarin ones. Retune it before anything else, or every word you learn gets stored wrong.",
+    tones: true,
+    items: [
+      { k: "tone1", name: "Hacking Chinese tone training", url: "https://www.hackingchinese.com/the-tone-training-course/",
+        desc: "Pairs of words that differ only by tone, until you can hear the difference reliably. The most valuable fortnight you’ll spend." },
+      { k: "tone2", name: "Grace Mandarin Chinese", url: "https://www.youtube.com/@GraceMandarinChinese",
+        desc: "Clear pronunciation breakdowns in English. Use her videos on tone changes and on zh/ch/sh, then stop watching English explanations." },
+      { k: "tone3", name: "Tone drills, right here", go: ["review", "drills"], cta: "Open drills",
+        desc: "Hear a word, pick the tones. Ten a day." }
+    ] },
+  { badge: "Stage 2", when: "2–3 months", title: "Listen to Chinese you nearly understand",
+    goal: "No English. Slow speech, pictures, gestures. You’ll follow more than a true beginner would, because the vocabulary is already in your head under different sounds. This is where most of your hours go.",
+    items: [
+      { k: "ci1", name: "Lazy Chinese", url: "https://www.youtube.com/@Lazy-Chinese",
+        desc: "Stories told entirely in simple Mandarin with drawings. Start at her absolute-beginner playlist even if it feels slow." },
+      { k: "ci2", name: "Mandarin Click", url: "https://www.youtube.com/@MandarinClick",
+        desc: "Graded stories by HSK level, slow and clearly enunciated. Good for hearing tones in running speech." },
+      { k: "ci3", name: "Slow & Clear Chinese", url: "https://www.youtube.com/@immersivechinese",
+        desc: "Immersion with props and gestures, no English at all." },
+      { k: "ci4", name: "Blabla Chinese", url: "https://www.youtube.com/@blablachinese7526",
+        desc: "Well-produced beginner stories with strong visual support." },
+      { k: "ci5", name: "Acquire Mandarin", url: "https://www.youtube.com/@acquiremandarin",
+        desc: "Steps up to longer talk on real topics. Move here when the others feel easy." }
+    ],
+    note: "Move on when you can follow a beginner video without subtitles and without straining." },
+  { badge: "Stage 3", when: "Alongside stage 2", title: "Start reading, because you can’t",
+    goal: "This is your real gap. You speak a Chinese language fluently and can’t read it. Graded readers with audio fix both at once: you see the character, hear the Mandarin, and recognise the word you already know.",
+    items: [
+      { k: "rd1", name: "Mandarin Bean", url: "https://mandarinbean.com/",
+        desc: "Graded reading HSK 1–6, every lesson with audio, pinyin and word translations. Simplified or traditional. Free, no catch." },
+      { k: "rd2", name: "Du Chinese", url: "https://www.duchinese.net/", paid: true,
+        desc: "Graded stories with synced audio and tap-for-meaning. A couple of free lessons a day; paid for the full library." },
+      { k: "rd3", name: "Where Cantonese misleads you", go: ["words", "canto"], cta: "Open those words",
+        desc: "The everyday words your Cantonese gets wrong — 睮 vs 看, 食 vs 吃. Learn these before anything else in the list." }
+    ] },
+  { badge: "Stage 4", when: "Months 4–9", title: "Podcasts for the hours you’re not looking at a screen",
+    goal: "Driving, walking, cooking. You won’t catch everything, and that’s the point — volume matters more than comprehension here.",
+    items: [
+      { k: "pod1", name: "TeaTime Chinese", url: "https://teatimechinese.com/",
+        desc: "Clear, slow, one topic per episode, with transcripts. The usual first podcast people manage all the way through." },
+      { k: "pod2", name: "Maomi Chinese", url: "https://maomichinese.com/podcast",
+        desc: "Conversational, everyday topics, graded across levels." },
+      { k: "pod3", name: "Learning Chinese Through Stories", url: "https://www.learningchinesethroughstories.com/",
+        desc: "A story, then the same story explained in simpler Chinese. Good bridge from stage 2." },
+      { k: "pod4", name: "Dashu Mandarin", url: "https://www.youtube.com/@dashumandarin",
+        desc: "Two native speakers, unscripted. Harder, and the first thing that sounds like real people talking." }
+    ] },
+  { badge: "Stage 5", when: "Month 9 onward", title: "Speak like someone from the mainland, not a textbook",
+    goal: "Shadowing: play a line, pause, repeat it copying the rhythm exactly. Fifteen minutes of this does more for your accent than an hour of study, and it’s where Cantonese habits get sanded off.",
+    items: [
+      { k: "sh1", name: "Mandarin Corner", url: "https://www.youtube.com/@MandarinCorner2",
+        desc: "Street interviews and walk-arounds with full subtitles. Ideal shadowing material — real speech, but transcribed." },
+      { k: "sh2", name: "大鹏说中文 (Da Peng)", url: "https://www.youtube.com/@chinese9339",
+        desc: "Daily expressions and interviews, aimed at learners who’ve outgrown beginner material." },
+      { k: "sh3", name: "Roleplay with 依依", go: ["talk"], cta: "Pick a scene",
+        desc: "Choose something you’d actually face — ordering, directions, the pharmacy — and let her correct the Cantonese that slips through." }
+    ] },
+  { badge: "Then", when: "", title: "Native content, no training wheels",
+    goal: "A drama you’d watch anyway. A channel about something you already care about. At this point the language stops being the subject and becomes the means.",
+    items: [
+      { k: "nat1", name: "Unconventional Chinese", url: "https://www.youtube.com/@unconventionalchinese",
+        desc: "Travel stories and interviews, entertaining rather than instructional." },
+      { k: "nat2", name: "Bilibili", url: "https://www.bilibili.com/",
+        desc: "Where mainland viewers actually watch things. Search a hobby in Chinese and follow whatever holds your attention." },
+      { k: "nat3", name: "Mandarin dramas with Chinese subtitles",
+        desc: "Chinese subtitles, never English. Your Cantonese gives you a head start on written vocabulary that spoken Mandarin doesn’t." }
+    ] }
+];
+
+const PATH_ITEMS = PATH.flatMap(s => s.items);
+const pathDone = () => PATH_ITEMS.filter(i => S.path[i.k]).length;
+
+// The stage you're on: first one with an unticked item.
+function pathStage(){
+  for (let i = 0; i < PATH.length; i++) if (PATH[i].items.some(it => !S.path[it.k])) return i;
+  return PATH.length - 1;
+}
+function pathNextItem(){
+  for (const s of PATH) for (const it of s.items) if (!S.path[it.k]) return it;
+  return null;
+}
+
+function pathItemHTML(it){
+  const on = !!S.path[it.k];
+  const tag = it.paid ? '<span class="tag paid">Freemium</span>' : '<span class="tag">Free</span>';
+  const name = it.url
+    ? `<a href="${esc(it.url)}" target="_blank" rel="noopener">${esc(it.name)}</a>`
+    : esc(it.name);
+  const cta = it.go ? `<button class="pgo" data-go="${esc(it.go.join("|"))}">${esc(it.cta || "Open")}</button>` : "";
+  return `<div class="pitem${on ? " on" : ""}">
+    <button class="ptick" data-tick="${esc(it.k)}" role="checkbox" aria-checked="${on}"
+      aria-label="${on ? "Started" : "Not started"}: ${esc(it.name)}"><span aria-hidden="true">✓</span></button>
+    <div class="pbody"><p class="pname">${name}${tag}</p><p class="pdesc">${it.desc}</p>${cta}</div>
+  </div>`;
+}
+
+function renderPath(){
+  const done = pathDone(), total = PATH_ITEMS.length, cur = pathStage();
+  const next = pathNextItem();
+
+  const day = PATH_DAY.map(([t, what, why]) =>
+    `<div class="pslot"><b>${esc(t)}</b><div><span class="what">${esc(what)}</span><span class="pdesc">${esc(why)}</span></div></div>`).join("");
+
+  const stages = PATH.map((s, i) => {
+    const sDone = s.items.filter(it => S.path[it.k]).length;
+    const open = i === cur;
+    const tones = s.tones ? `<div class="ptones">${PATH_TONES.map(([n, w, d]) =>
+      `<div class="ptone"><b class="t${n}">${esc(w)}</b><span>${esc(d)}</span></div>`).join("")}</div>` : "";
+    return `<section class="pstage${open ? " open" : ""}" data-stage="${i}">
+      <button class="phead" aria-expanded="${open}">
+        <span class="pmeta"><span class="pill${i === cur ? " now" : ""}">${esc(s.badge)}</span>${s.when ? `<span class="sub">${esc(s.when)}</span>` : ""}</span>
+        <span class="ptitle">${esc(s.title)}</span>
+        <span class="sub">${sDone} of ${s.items.length} started</span>
+        <span class="pchev" aria-hidden="true">⌄</span>
+      </button>
+      <div class="pinner">
+        <p class="pgoal">${esc(s.goal)}</p>
+        ${tones}
+        ${s.items.map(pathItemHTML).join("")}
+        ${s.note ? `<p class="pnote">${esc(s.note)}</p>` : ""}
+      </div>
+    </section>`;
+  }).join("");
+
+  $("pathBody").innerHTML = `
+    <div class="pbar"><i style="width:${total ? Math.round(done / total * 100) : 0}%"></i></div>
+    <p class="sub center">${done} of ${total} resources started</p>
+    ${next ? `<div class="pnext"><span class="sub">Next on your path</span><b>${esc(next.name)}</b>
+      <p class="pdesc">${next.desc}</p>
+      ${next.url ? `<a class="btn primary" href="${esc(next.url)}" target="_blank" rel="noopener">Open it</a>`
+        : next.go ? `<button class="btn primary pgo" data-go="${esc(next.go.join("|"))}">${esc(next.cta || "Open")}</button>` : ""}</div>`
+      : `<div class="pnext"><b>Every resource ticked.</b><p class="pdesc">Keep cycling stage 5 and 6 — shadowing and native content don’t run out.</p></div>`}
+
+    <h2>What a day looks like</h2>
+    <div class="pday">${day}</div>
+    <p class="pnote">Repetition beats novelty. Watching one video three times does more than three videos once.</p>
+
+    <h2>What you can skip, and what you can’t</h2>
+    <div class="pskip">
+      <div><h3>Skip</h3><ul>${PATH_SKIP.skip.map(x => `<li>${x}</li>`).join("")}</ul></div>
+      <div class="keep"><h3>Don’t skip</h3><ul>${PATH_SKIP.keep.map(x => `<li>${x}</li>`).join("")}</ul></div>
+    </div>
+
+    <h2>The path</h2>
+    ${stages}
+
+    <p class="pnote">Ready to move on when the stage feels comfortable rather than effortful. If you’re straining, drop back — learning happens near 80% comprehension, not 40%.</p>
+    <p class="sub">Channels and readers drawn from <a href="https://www.hackingchinese.com/the-best-youtube-channels-for-learning-chinese/" target="_blank" rel="noopener">Hacking Chinese’s channel guide</a> and its <a href="https://www.hackingchinese.com/the-10-best-free-chinese-listening-resources-for-beginner-intermediate-and-advanced-learners/" target="_blank" rel="noopener">free listening list</a>.</p>`;
+}
+
+$("pathBody").addEventListener("click", e => {
+  const tick = e.target.closest("[data-tick]");
+  if (tick){
+    const k = tick.dataset.tick;
+    if (S.path[k]) delete S.path[k]; else S.path[k] = today();
+    save(); renderPath();
+    return;
+  }
+  const go = e.target.closest("[data-go]");
+  if (go){
+    const [view, sub] = go.dataset.go.split("|");
+    show(view);
+    if (view === "review" && sub){ revTab = sub; renderReview(); }
+    if (view === "words" && sub) setFilter(sub);
+    return;
+  }
+  const head = e.target.closest(".phead");
+  if (head){
+    const sec = head.closest(".pstage");
+    const open = sec.classList.toggle("open");
+    head.setAttribute("aria-expanded", String(open));
+  }
+});
+
+function renderPathNudge(){
+  const el = $("pathNudge"); if (!el) return;
+  const st = PATH[pathStage()], next = pathNextItem();
+  const done = pathDone(), total = PATH_ITEMS.length;
+  el.innerHTML = `<h2>Your path</h2><button class="pcard" id="pathJump">
+    <span class="pmeta"><span class="pill now">${esc(st.badge)}</span><span class="sub">${done} of ${total} started</span></span>
+    <b>${esc(st.title)}</b>
+    ${next ? `<span class="sub">Next: ${esc(next.name)}</span>` : `<span class="sub">All ticked \u2014 keep cycling</span>`}
+    <span class="pbar"><i style="width:${total ? Math.round(done/total*100) : 0}%"></i></span>
+  </button>`;
+  $("pathJump").onclick = () => show("path");
+}
 
 // ---------- init ----------
 if (needsOnboarding()) openOnboarding();
