@@ -251,7 +251,7 @@ body.incall nav.tabs{display:none}
 .segbar button[aria-selected="true"]{background:var(--card);color:var(--ink);font-weight:600;box-shadow:0 1px 2px rgba(0,0,0,.07)}
 
 /* ---------- rules & lists ---------- */
-.line{height:1px;background:var(--hair);border:0;margin:22px 0}
+.rule{height:1px;background:var(--hair);border:0;margin:22px 0}
 
 /* ============================================================
    TODAY — one hero, one list, one action, one status line
@@ -614,20 +614,44 @@ body.incall nav.tabs{display:none}
 .tgt .han{font-family:var(--han);font-size:15px}
 
 .stage{display:flex;flex-direction:column;align-items:center;gap:13px;padding:14px 16px 6px}
+/* ---------- 依依, the visible partner ---------- */
 .orb{
-  width:92px;height:92px;border-radius:999px;
-  background:linear-gradient(160deg,#2C6A5A,#1C3F58);
-  display:grid;place-items:center;
-  box-shadow:0 0 0 0 rgba(255,255,255,.14);
-  transition:transform .25s,box-shadow .25s;
+  width:150px;height:150px;border-radius:999px;position:relative;
+  box-shadow:0 0 0 0 rgba(255,255,255,.12);
+  transition:box-shadow .3s ease;
 }
-.orbface{font-family:var(--han);font-size:36px;color:#fff;font-weight:600}
-.orb[data-state="speaking"]{animation:pulse 1.5s ease-in-out infinite}
-.orb[data-state="listening"]{box-shadow:0 0 0 12px rgba(226,105,92,.18);transform:scale(1.04)}
-.orb[data-state="thinking"]{opacity:.72}
-@keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.06)}}
-body.tutoring .orb{width:64px;height:64px}
-body.tutoring .orbface{font-size:27px}
+.avatar{width:100%;height:100%;display:block;overflow:visible}
+.avatar .body{animation:breathe 4.2s ease-in-out infinite;transform-origin:100px 180px}
+.avatar .head{transform-origin:100px 130px;transition:transform .45s ease}
+.avatar .eye{transform-origin:center;transform-box:fill-box;animation:blink 5.5s infinite}
+.avatar .eyeR{animation-delay:.05s}
+.avatar .pupil{transition:transform .35s ease}
+.avatar .mouth{transition:ry .08s linear}
+
+@keyframes breathe{0%,100%{transform:translateY(0)}50%{transform:translateY(-1.5px)}}
+@keyframes blink{0%,94%,100%{transform:scaleY(1)}96.5%{transform:scaleY(.1)}}
+
+/* idle: calm, blinking, breathing */
+
+/* listening: she leans in and her eyes come to you */
+.orb[data-state="listening"]{box-shadow:0 0 0 10px rgba(226,105,92,.2)}
+.orb[data-state="listening"] .head{transform:rotate(-4deg) translate(-2px,0)}
+.orb[data-state="listening"] .pupil{transform:translate(0,0)}
+
+/* thinking: eyes glance up and to the side */
+.orb[data-state="thinking"] .pupil{transform:translate(2.5px,-3px)}
+.orb[data-state="thinking"] .head{transform:rotate(3deg)}
+.orb[data-state="thinking"]{opacity:.85}
+
+/* speaking: the mouth moves (JS); a soft glow shows she has the floor */
+.orb[data-state="speaking"]{box-shadow:0 0 0 8px rgba(255,255,255,.1)}
+
+/* the avatar sits lower in the call so the transcript has room */
+body.tutoring .orb{width:104px;height:104px}
+body.tutoring .stage{gap:6px;padding-top:4px}
+@media (prefers-reduced-motion:reduce){
+  .avatar .body,.avatar .eye{animation:none!important}
+}
 body.tutoring .stage{gap:7px;padding-top:6px}
 .status{color:var(--callmute);font-size:14.5px;margin:0;text-align:center}
 
@@ -774,6 +798,19 @@ body.incall .toast{bottom:calc(172px + env(safe-area-inset-bottom,0px));backgrou
   .pday{grid-template-columns:1fr 1fr;gap:0 26px}
 }
 @media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+
+/* transcript lines: her speech, tappable to hear again */
+.transcript .line>button:first-child{
+  display:block;width:100%;background:none;border:0;padding:0;
+  text-align:left;color:var(--callink);font:inherit;cursor:pointer;
+}
+.transcript .line .han{display:block;font-family:var(--han);font-size:19px;font-weight:600;line-height:1.3}
+.transcript .line .py{display:block;color:var(--callmute);font-size:14.5px;font-weight:500}
+.transcript .en-toggle{
+  margin-top:6px;background:none;border:0;padding:0;
+  color:var(--callmute);font:inherit;font-size:13.5px;text-decoration:underline;text-underline-offset:3px;
+}
+.transcript .msg.her .line{display:block}
 </style>
 </head>
 <body>
@@ -905,7 +942,38 @@ body.incall .toast{bottom:calc(172px + env(safe-area-inset-bottom,0px));backgrou
   <div class="targets" id="tgtRow"></div>
   <div class="stagebar" id="stageRow" hidden></div>
   <div class="stage">
-    <div class="orb" id="orb" data-state="idle"><span class="orbface">依</span></div>
+    <div class="orb" id="orb" data-state="idle" role="img" aria-label="依依, your conversation partner">
+      <svg class="avatar" viewBox="0 0 200 200" aria-hidden="true">
+        <defs>
+          <linearGradient id="avBg" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0" stop-color="#2C6A5A"/><stop offset="1" stop-color="#1B3F57"/>
+          </linearGradient>
+          <clipPath id="avClip"><circle cx="100" cy="100" r="98"/></clipPath>
+        </defs>
+        <g clip-path="url(#avClip)">
+          <rect width="200" height="200" fill="url(#avBg)"/>
+          <g class="body">
+            <path d="M28 214 C30 168 58 150 100 150 C142 150 170 168 172 214 Z" fill="#1F4A55"/>
+            <path d="M84 140 L116 140 L116 164 Q100 172 84 164 Z" fill="#D9A07E"/>
+            <path d="M86 150 Q100 162 114 150 L110 146 Q100 154 90 146 Z" fill="#F2EFE8" opacity=".9"/>
+          </g>
+          <g class="head">
+            <path d="M56 98 C54 52 74 36 100 36 C126 36 146 52 144 98 L148 124 Q100 140 52 124 Z" fill="#1A1E24"/>
+            <ellipse cx="100" cy="98" rx="44" ry="52" fill="#EDC3A2"/>
+            <path d="M56 92 C60 62 74 48 100 48 C128 48 142 62 144 92 C132 76 116 70 100 70 C84 70 68 76 56 92 Z" fill="#1A1E24"/>
+            <rect x="130" y="58" width="12" height="4" rx="2" fill="#B4322A" transform="rotate(28 136 60)"/>
+            <path d="M74 84 Q80 78 88 81" fill="none" stroke="#1A1E24" stroke-width="3" stroke-linecap="round"/>
+            <path d="M112 81 Q120 78 126 84" fill="none" stroke="#1A1E24" stroke-width="3" stroke-linecap="round"/>
+            <g class="eye eyeL"><ellipse cx="82" cy="98" rx="6" ry="7" fill="#1A1E24"/><circle class="pupil" cx="84" cy="96" r="2" fill="#fff"/></g>
+            <g class="eye eyeR"><ellipse cx="118" cy="98" rx="6" ry="7" fill="#1A1E24"/><circle class="pupil" cx="120" cy="96" r="2" fill="#fff"/></g>
+            <ellipse cx="72" cy="116" rx="7" ry="4.5" fill="#E58A7A" opacity=".35"/>
+            <ellipse cx="128" cy="116" rx="7" ry="4.5" fill="#E58A7A" opacity=".35"/>
+            <path d="M96 110 Q100 113 104 110" fill="none" stroke="#B5694F" stroke-width="1.6" stroke-linecap="round"/>
+            <ellipse class="mouth" cx="100" cy="128" rx="8" ry="2.5" fill="#8E3A33"/>
+          </g>
+        </g>
+      </svg>
+    </div>
     <p class="status" id="callStatus">Tap the mic and say hello</p>
     <button class="helpchip" id="callHelp">Stuck? Get a hint</button>
   </div>
@@ -1817,7 +1885,30 @@ function pickTargets(n){
 
 // ---------- the call ----------
 let C = null, callTimer = null, rec = null, busy = false, ctl = null;
-const ORB = st => { const o = $("orb"); if (o) o.dataset.state = st; };
+// Her face. The state drives CSS (blink, head tilt, glance) and the mouth
+// is animated here while she speaks. Timer-based, not speech-boundary-based,
+// because Android doesn't reliably fire boundary events.
+let mouthT = null;
+const reduceMotion = () => window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches;
+function mouthOn(){
+  const m = document.querySelector("#orb .mouth"); if (!m || reduceMotion()) return;
+  let open = false;
+  clearInterval(mouthT);
+  mouthT = setInterval(() => {
+    open = !open;
+    const ry = open ? 4.5 + Math.random() * 4 : 1.2;
+    m.setAttribute("ry", ry.toFixed(1));
+  }, 150);
+}
+function mouthOff(){
+  clearInterval(mouthT); mouthT = null;
+  const m = document.querySelector("#orb .mouth"); if (m) m.setAttribute("ry", "2.5");
+}
+const ORB = st => {
+  const o = $("orb"); if (!o) return;
+  o.dataset.state = st;
+  if (st === "speaking") mouthOn(); else mouthOff();
+};
 function setStatus(t){ $("callStatus").textContent = t; }
 function levelNote(){
   const est = latestLevel();
